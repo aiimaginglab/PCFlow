@@ -1,0 +1,109 @@
+site_name: ConFIG
+site_description: Official Implementation for Conflict-Free Inverse Gradients Method.
+site_author: Qiang Liu
+site_url: https://tum-pbs.github.io/ConFIG
+
+repo_url: https://github.com/tum-pbs/ConFIG
+repo_name: tum-pbs/ConFIG
+edit_uri: ""  # No edit button, as some of our pages are in /docs and some in /examples via symlink, so it's impossible for them all to be accurate
+
+theme:
+    name: material
+    features:
+        #- navigation.sections  # Sections are included in the navigation on the left.
+        #- navigation.tabs  # Tabs are included in the navigation on the left.
+        #- toc.integrate  # Table of contents is integrated on the left; does not appear separately on the right.
+        - toc.follow
+        - header.autohide  # header disappears as you scroll
+        - navigation.top
+        - navigation.footer
+        - navigation.path
+        - announce.dismiss
+    palette:
+        - scheme: default
+          primary: brown
+          accent: amber
+          toggle:
+             icon: material/weather-night
+             name: Switch to dark mode
+        - scheme: slate
+          primary: black
+          accent: amber
+          toggle:
+             icon: material/weather-sunny
+             name: Switch to light mode
+    icon:
+        repo: fontawesome/brands/github  # GitHub logo in top right
+    logo: assets/config_white.png
+    favicon: assets/config_colorful.svg
+    custom_dir: overrides
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/tum-pbs/ConFIG
+
+
+strict: true  # Don't allow warnings during the build process
+
+markdown_extensions:
+    - pymdownx.arithmatex:  # Render LaTeX via MathJax
+        generic: true
+    - pymdownx.superfences  # Seems to enable syntax highlighting when used with the Material theme.
+    - pymdownx.details  # Allowing hidden expandable regions denoted by ???
+    - pymdownx.snippets:  # Include one Markdown file into another
+        base_path: docs
+    - admonition
+    - toc:
+        permalink: "¤"  # Adds a clickable permalink to each section heading
+        toc_depth: 4
+    - pymdownx.arithmatex:
+        generic: true
+    - pymdownx.smartsymbols
+
+extra_javascript:
+    - https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML
+    - https://polyfill.io/v3/polyfill.min.js?features=es6
+
+plugins:
+    - search  # default search plugin; needs manually re-enabling when using any other plugins
+    - autorefs  # Cross-links to headings
+    #- mknotebooks  # Jupyter notebooks
+    - mkdocs-jupyter:
+        include_requirejs: true
+        include_source: True
+        ignore_h1_titles: True
+    - mkdocstrings:
+        handlers:
+            python:
+                options:
+                    inherited_members: true  # Allow looking up inherited methods
+                    show_root_heading: true  # actually display anything at all...
+                    show_root_full_path: true  # display full path
+                    show_if_no_docstring: true
+                    show_signature_annotations: true
+                    separate_signature: true
+                    show_source: true  # don't include source code
+                    members_order: source  # order methods according to their order of definition in the source code, not alphabetical order
+                    heading_level: 4
+                    show_symbol_type_heading: true
+                    docstring_style: google
+                    preload_modules:
+                        - torch
+
+nav:
+    - 'Home': 'index.md'
+    - '1. Get Started': 
+        - '1.1. Quick Start': 'start/start.md'
+        - '1.2. Theory Introduction': 'start/theory.md'
+    - '2. Examples': 
+        - '2.1. Toy Example of Muti-task Learning': 'examples/mtl_toy.ipynb'
+        - "2.2. Solve Burgers' Equation with PINN": 'examples/pinn_burgers.ipynb'
+    - '3. Troubleshooting': 'start/troubleshooting.ipynb'
+    - '4. API Reference':
+        - "4.1. Gradient Operator": 'api/grad_operator.md'
+        - "4.2. Momentum Operator": 'api/momentum_operator.md'
+        - "4.3. Weight Model": 'api/weight_model.md'
+        - "4.4. Length Model": 'api/length_model.md'
+        - "4.5. Loss Recorder": 'api/loss_recorder.md'
+        - "4.6. Utils": 'api/utils.md'

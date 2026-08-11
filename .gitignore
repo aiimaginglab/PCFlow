@@ -1,0 +1,4 @@
+__pycache__/
+.omc/
+saved_info/
+model_ckpts/
