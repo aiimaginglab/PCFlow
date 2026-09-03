@@ -336,11 +336,11 @@ def train(args):
                 t = (1 - args.consistency_dt) * torch.rand((z_0.shape[0],1,1,1), device=device, dtype=dtype)
 
                 if args.use_lpips_loss:
-                    loss_consistency, loss_percep = cfm_lpips_loss(model, z_0, z_1, t, z_cond, elatentlpips_model, args) 
+                    loss_consistency, loss_trajectory, alpha, loss_velocity, loss_percep = cfm_lpips_loss(model, z_0, z_1, t, z_cond, elatentlpips_model, args) 
                 elif args.use_lpl_loss:
-                    loss_consistency, loss_percep, details = cfm_lpl_loss(model, z_0, z_1, t, z_cond, args, decoder_extractor, percep_keys, percep_weights)
+                    loss_consistency, loss_trajectory, alpha, loss_velocity, loss_percep, details = cfm_lpl_loss(model, z_0, z_1, t, z_cond, args, decoder_extractor, percep_keys, percep_weights)
                 else:
-                    loss_consistency = cfm_loss(model, z_0, z_1, t, z_cond, args)
+                    loss_consistency, loss_trajectory, alpha, loss_velocity = cfm_loss(model, z_0, z_1, t, z_cond, args)
                 
                 # perceptual loss weight
                 percep_weight = get_perceptual_weight(t, args)
@@ -515,11 +515,11 @@ def train(args):
                         t = (1 - args.consistency_dt) * torch.rand((z_0.shape[0],1,1,1), device=device, dtype=dtype)
 
                         if args.use_lpips_loss:
-                            loss_consistency, loss_percep = cfm_lpips_loss(model, z_0, z_1, t, z_cond, elatentlpips_model, args) 
+                            loss_consistency, loss_trajectory, alpha, loss_velocity, loss_percep = cfm_lpips_loss(model, z_0, z_1, t, z_cond, elatentlpips_model, args) 
                         elif args.use_lpl_loss:
-                            loss_consistency, loss_percep, details = cfm_lpl_loss(model, z_0, z_1, t, z_cond, args, decoder_extractor, percep_keys, percep_weights)
+                            loss_consistency, loss_trajectory, alpha, loss_velocity, loss_percep, details = cfm_lpl_loss(model, z_0, z_1, t, z_cond, args, decoder_extractor, percep_keys, percep_weights)
                         else:
-                            loss_consistency = cfm_loss(model, z_0, z_1, t, z_cond, args)
+                            loss_consistency, loss_trajectory, alpha, loss_velocity = cfm_loss(model, z_0, z_1, t, z_cond, args)
                 
                         # perceptual loss weight 
                         percep_weight = get_perceptual_weight(t, args)
@@ -801,7 +801,7 @@ if __name__ == "__main__":
 
     # conflict-free gradient alignment
     parser.add_argument("--use_conflict_free",action="store_true",  help="use modified gradient vector loss")
-    parser.add_argument("--projection_type", type=str, default="off", choices=["one_projection", "two_projection"], help="Choose projection type. three_grad: separate traj/vel/percep gradients with selective projection.")
+    parser.add_argument("--projection_type", type=str, default="off", choices=["one_projection", "two_projection"], help="Choose projection type")
     parser.add_argument("--one_projected_gradient", type=str, default="off", choices=["perceptual_gradient", "cfm_gradient", "off"], help="Choose projected gradient")
 
     # scheduler

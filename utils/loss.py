@@ -68,7 +68,7 @@ def cfm_loss(model, z_0, z_1, t, z_cond, args):
 
     loss_consistency = loss_trajectory + alpha * loss_velocity
 
-    return loss_consistency
+    return loss_consistency, loss_trajectory, alpha, loss_velocity
 
 
 def cfm_lpips_loss(model, z_0, z_1, t, z_cond, elatentlpips_model, args):
@@ -142,7 +142,7 @@ def cfm_lpips_loss(model, z_0, z_1, t, z_cond, elatentlpips_model, args):
 
     loss_consistency = loss_trajectory + alpha * loss_velocity
 
-    return loss_consistency, loss_percep
+    return loss_consistency, loss_trajectory, alpha, loss_velocity, loss_percep
 
 
 def cfm_lpl_loss(model, z_0, z_1, t, z_cond, args, decoder_extractor, percep_keys, percep_weights):
@@ -217,7 +217,7 @@ def cfm_lpl_loss(model, z_0, z_1, t, z_cond, args, decoder_extractor, percep_key
 
     loss_consistency = loss_trajectory + alpha * loss_velocity
 
-    return loss_consistency, loss_percep, details
+    return loss_consistency, loss_trajectory, alpha, loss_velocity, loss_percep, details
 
 
 def normalize_feature(feat, eps=1e-10):

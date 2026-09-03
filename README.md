@@ -13,7 +13,10 @@
 2. [Datasets](#datasets)
 3. [Training](#training)
 4. [Inference](#inference)
+5. [Gradient Visualization](#gradient-visualization)
 6. [Acknowledgments](#acknowledgments)
+7. [Citation](#citation)
+8. [License](#license)
 
 
 ## Environment setup
@@ -118,6 +121,35 @@ accelerate launch --num_processes 1 test_flow_latent_internal_percep.py \
   --method euler \
   --precomputed_statistics
 ```
+
+
+## Gradient Visualization
+
+To analyze the conflict between the LCFM and LCPL objectives, [vector_visualization.py](vector_visualization.py) computes the cosine similarity and magnitude ratio between the two gradient vectors, binned over timestep `t`. The launch script is provided under [bash_scripts/visualize_scripts/](bash_scripts/visualize_scripts/) — set `weight_folder` to the desired experiment folder and adjust the parameter options to match the desired training configuration. Results are saved as `.npy` arrays (per-bin cosine similarity and gradient ratio) under `visualization_save_path`.
+
+
+## Citation
+
+```bibtex
+@article{jo2026flow,
+  title={Flow Straight to Reality: Perceptually Consistent Flow Matching for Efficient Image Restoration},
+  author={Jo, Sangwoo and Ko, Donggeun and Kang, Jayeon and Kwak, Youngsang and Kwak, Jaehwa and Choi, Sungjoon},
+  journal={arXiv preprint arXiv:2608.10544},
+  year={2026}
+}
+```
+
+
+## License
+
+Our code is released under the [MIT License](LICENSE).
+
+Third-party components keep their own licenses:
+
+- [elatentlpips/](elatentlpips/) — CC BY-NC 4.0 and NVIDIA Source Code License-NC (**non-commercial use only**; see `LICENSE.txt` and `LICENSE-NVIDIA.txt` in the folder). This component is used by the `--use_lpips_loss` training option; inference does not depend on it.
+- [pytorch_fid/](pytorch_fid/) — MIT (see `LICENSE_MIT` in the folder).
+- [ConFIG/](ConFIG/) — MIT (see `LICENSE` in the folder).
+- [models/guided_diffusion/](models/guided_diffusion/) — MIT (see `LICENSE_MIT` in the folder).
 
 
 ## Acknowledgments

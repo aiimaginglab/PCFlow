@@ -1,4 +1,5 @@
 __pycache__/
 .omc/
 saved_info/
+visualization_analysis/
 model_ckpts/
